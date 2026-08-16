@@ -1,0 +1,48 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import StatusBadge from '@/components/StatusBadge.astro';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { isPublished } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('pairings')).filter(isPublished);
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'pairings'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  description={entry.data.hypothesis}
+  eyebrow="PAIRING"
+  claimStatus={entry.data.claimStatus}
+  permissionStatus={entry.data.permissionStatus}
+  lastVerifiedAt={entry.data.lastVerifiedAt}
+  updatedAt={entry.data.updatedAt}
+  sourceCount={entry.data.sourceIds.length}
+>
+  <p><StatusBadge kind="evidence" value={entry.data.evidenceLevel} /></p>
+  <dl class="info-grid">
+    <div><dt>日本酒ID</dt><dd>{entry.data.sakeId}</dd></div><div>
+      <dt>料理・食材</dt><dd>{entry.data.food}</dd>
+    </div><div><dt>狙う相互作用</dt><dd>{entry.data.interaction}</dd></div><div>
+      <dt>提供条件</dt><dd>{entry.data.serving}</dd>
+    </div>
+  </dl>
+  {
+    entry.data.avoidWhen && (
+      <>
+        <>
+          <h2>避ける条件</h2>
+          <p>{entry.data.avoidWhen}</p>
+        </>
+      </>
+    )
+  }
+  <Content />
+</ArticleLayout>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="方法論" description="調査、官能記録、ペアリング実証、訂正の方法と状態定義。">
+  <article class="article shell">
+    <header class="article__header">
+      <p class="eyebrow">METHODOLOGY</p>
+      <h1>何を、どこまで確認したか。</h1>
+      <p class="article__lead">
+        正しそうに見せるためのラベルではなく、読み手が情報の強さと限界を判断できる共通言語として状態を表示します。
+      </p>
+    </header>
+    <aside class="verification">
+      <p class="eyebrow">CORE RULE</p>
+      <h2 style="font-size: 1.7rem;">事実・発言・観察・仮説を混ぜない。</h2>
+    </aside>
+    <div class="article__body prose">
+      <h2>確認状態</h2>
+      <table>
+        <thead><tr><th>状態</th><th>意味</th><th>公開時の扱い</th></tr></thead>
+        <tbody>
+          <tr
+            ><td><code>verified</code></td><td>一次資料・公的資料を運営が確認</td><td
+              >出典と最終確認日を表示</td
+            ></tr
+          >
+          <tr
+            ><td><code>partner_verified</code></td><td>掲載当事者が内容を確認</td><td
+              >出典に加えて当事者確認日を保持</td
+            ></tr
+          >
+          <tr
+            ><td><code>personal_observation</code></td><td>運営者自身の官能・現場観察</td><td
+              >事実ではなく観察として表示</td
+            ></tr
+          >
+          <tr
+            ><td><code>draft</code></td><td>未検証・編集中</td><td
+              >本番サイトとサイトマップから除外</td
+            ></tr
+          >
+        </tbody>
+      </table>
+
+      <h2>ペアリングの証拠レベル</h2>
+      <table>
+        <thead><tr><th>段階</th><th>基準</th></tr></thead>
+        <tbody>
+          <tr><td>仮説</td><td>組み合わせの狙いと提供条件を記述した段階</td></tr>
+          <tr><td>少人数で試行</td><td>比較条件を決め、少人数で反応を確認</td></tr>
+          <tr><td>イベントで検証</td><td>提供現場で複数の反応と運用上の学びを記録</td></tr>
+          <tr><td>協力先が採用</td><td>飲食店・売場等で継続メニューや企画として採用</td></tr>
+        </tbody>
+      </table>
+
+      <h2>官能記録</h2>
+      <p>
+        日本酒の商品事実とテイスティングノートは分離します。観察日、温度、器、開栓後時間、分かる範囲のロットを残し、香味には個人差と提供条件による変化があることを明記します。日本酒度など一つの数値から甘辛や品質を断定しません。
+      </p>
+
+      <h2>実証</h2>
+      <p>
+        開始前に仮説、対象、比較条件、質問、公開範囲を決めます。結果は成功・不成立を問わず、限界と次の検証を含めて記録します。氏名、連絡先、生のアンケート回答は公開リポジトリへ保存しません。
+      </p>
+
+      <h2>訂正</h2>
+      <p>
+        誤りの指摘を受けた場合、対象、根拠、影響範囲を確認します。重要な訂正は更新日だけでなく変更内容をページ末尾に残します。訂正窓口は公開前に連絡経路と対応目安を確定します。
+      </p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionIntro from '@/components/CollectionIntro.astro';
+import EmptyState from '@/components/EmptyState.astro';
+import EntryCard from '@/components/EntryCard.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isPublished } from '@/lib/content';
+import { withBase } from '@/lib/paths';
+
+const entries = (await getCollection('sakes')).filter(isPublished);
+---
+
+<BaseLayout title="日本酒" description="商品事実と運営者の官能観察を分離した新潟清酒の記録。">
+  <CollectionIntro
+    eyebrow="SAKES"
+    title="日本酒"
+    description="公式商品情報と、運営者のテイスティング記録を別データとして管理します。日本酒度だけから味を断定しません。"
+    count={entries.length}
+    unit="銘柄"
+  />
+  <section class="content-section shell">
+    {
+      entries.length === 0 ? (
+        <EmptyState
+          title="出典確認済みの商品情報を準備しています。"
+          body="ラベル・公式商品ページを確認し、季節性や終売状態も含めて記録してから公開します。"
+        />
+      ) : (
+        <div class="entry-grid">
+          {entries.map((entry) => (
+            <EntryCard
+              href={withBase(`/sakes/${entry.id}/`)}
+              eyebrow={entry.data.category}
+              title={`${entry.data.brandName} ${entry.data.productName}`}
+              summary={entry.data.summary}
+              status={entry.data.claimStatus}
+              updatedAt={entry.data.updatedAt}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

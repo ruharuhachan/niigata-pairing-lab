@@ -1,0 +1,40 @@
+---
+import { formatDate } from '@/lib/content';
+import { permissionStatusLabels } from '@/lib/labels';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  claimStatus: 'verified' | 'partner_verified' | 'personal_observation' | 'draft';
+  permissionStatus: 'not_required' | 'requested' | 'granted' | 'denied';
+  lastVerifiedAt?: string | undefined;
+  updatedAt: string;
+  sourceCount: number;
+}
+
+const { claimStatus, permissionStatus, lastVerifiedAt, updatedAt, sourceCount } = Astro.props;
+---
+
+<aside class="verification" aria-label="情報の確認状態">
+  <div class="verification__lead">
+    <p class="eyebrow">VERIFICATION</p>
+    <StatusBadge kind="claim" value={claimStatus} />
+  </div>
+  <dl>
+    <div>
+      <dt>最終確認</dt>
+      <dd>{formatDate(lastVerifiedAt)}</dd>
+    </div>
+    <div>
+      <dt>最終更新</dt>
+      <dd>{formatDate(updatedAt)}</dd>
+    </div>
+    <div>
+      <dt>出典</dt>
+      <dd>{sourceCount}件</dd>
+    </div>
+    <div>
+      <dt>掲載許諾</dt>
+      <dd>{permissionStatusLabels[permissionStatus]}</dd>
+    </div>
+  </dl>
+</aside>

@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionIntro from '@/components/CollectionIntro.astro';
+import EmptyState from '@/components/EmptyState.astro';
+import EntryCard from '@/components/EntryCard.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isPublished } from '@/lib/content';
+import { evidenceLevelLabels } from '@/lib/labels';
+import { withBase } from '@/lib/paths';
+
+const entries = (await getCollection('pairings')).filter(isPublished);
+---
+
+<BaseLayout
+  title="ペアリング"
+  description="提供条件と証拠レベルを表示する、新潟清酒と食のペアリング仮説。"
+>
+  <CollectionIntro
+    eyebrow="PAIRINGS"
+    title="ペアリング"
+    description="「合う」で終わらせず、狙う相互作用、温度、器、分量、避ける条件、検証段階を公開します。"
+    count={entries.length}
+    unit="組"
+  />
+  <section class="content-section shell">
+    {
+      entries.length === 0 ? (
+        <EmptyState
+          title="最初のペアリング仮説を検証中です。"
+          body="思いつきを実績として見せません。少人数試行やイベント実証を経て、結果と限界を公開します。"
+          action="partners"
+        />
+      ) : (
+        <div class="entry-grid">
+          {entries.map((entry) => (
+            <EntryCard
+              href={withBase(`/pairings/${entry.id}/`)}
+              eyebrow={evidenceLevelLabels[entry.data.evidenceLevel]}
+              title={entry.data.title}
+              summary={entry.data.hypothesis}
+              status={entry.data.claimStatus}
+              updatedAt={entry.data.updatedAt}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

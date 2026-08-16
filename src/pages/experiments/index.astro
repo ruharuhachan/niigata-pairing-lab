@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionIntro from '@/components/CollectionIntro.astro';
+import EmptyState from '@/components/EmptyState.astro';
+import EntryCard from '@/components/EntryCard.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isPublished } from '@/lib/content';
+import { withBase } from '@/lib/paths';
+
+const entries = (await getCollection('experiments')).filter(isPublished);
+---
+
+<BaseLayout title="実証" description="成功だけでなく不成立・限界・次の検証まで残す現場実験の記録。">
+  <CollectionIntro
+    eyebrow="EXPERIMENTS"
+    title="実証"
+    description="対象、比較条件、質問、結果、限界を記録します。氏名や生アンケートは公開せず、匿名化・集計した学びだけを扱います。"
+    count={entries.length}
+    unit="件"
+  />
+  <section class="content-section shell">
+    {
+      entries.length === 0 ? (
+        <EmptyState
+          title="公開可能な実証記録はまだありません。"
+          body="共同実験では、実施前に公開範囲と評価方法を合意します。不成立だった結果も、学びとして残します。"
+          action="partners"
+        />
+      ) : (
+        <div class="entry-grid">
+          {entries.map((entry) => (
+            <EntryCard
+              href={withBase(`/experiments/${entry.id}/`)}
+              eyebrow={entry.data.placeType}
+              title={entry.data.title}
+              summary={entry.data.resultSummary}
+              status={entry.data.claimStatus}
+              updatedAt={entry.data.updatedAt}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EmptyState from '@/components/EmptyState.astro';
+import { formatDate, isPublished } from '@/lib/content';
+
+const sources = (await getCollection('sources'))
+  .filter(isPublished)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'ja'));
+---
+
+<BaseLayout
+  title="出典一覧"
+  description="掲載情報を支える一次資料、公的資料、当事者発言、観察記録の索引。"
+>
+  <article class="article shell">
+    <header class="article__header">
+      <p class="eyebrow">SOURCES</p><h1>出典一覧</h1><p class="article__lead">
+        どの資料を、いつ確認し、何を支えるものとして使ったかを一覧化します。
+      </p>
+    </header>
+    <aside class="verification">
+      <p class="eyebrow">PUBLIC SOURCES</p><h2 style="font-size: 3rem;">
+        {sources.length.toString().padStart(2, '0')}
+      </h2><p>公開中の出典</p>
+    </aside>
+    <div class="article__body prose">
+      {
+        sources.length === 0 ? (
+          <EmptyState
+            title="公開中の出典はまだありません。"
+            body="最初の掲載情報と同時に、資料名・発行者・URL・確認日・支える主張を公開します。"
+          />
+        ) : (
+          <div class="entry-grid">
+            {sources.map((source) => (
+              <article class="entry-card">
+                <p class="eyebrow">{source.data.sourceType}</p>
+                <h2 style="font-size: 1.5rem;">
+                  <a href={source.data.url} rel="external">
+                    {source.data.title}
+                  </a>
+                </h2>
+                <p>{source.data.publisher}</p>
+                <footer>
+                  <span>確認 {formatDate(source.data.accessedAt)}</span>
+                  <span aria-hidden="true">↗</span>
+                </footer>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

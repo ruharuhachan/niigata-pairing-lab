@@ -1,0 +1,40 @@
+name: 共同実験の相談
+description: 飲食店、売場、酒蔵、生産者との小規模な検証
+title: '[共同実験] '
+labels: ['collaboration']
+body:
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 目的・検証したい仮説
+    validations:
+      required: true
+  - type: input
+    id: place
+    attributes:
+      label: 場所・会場種別
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: 想定対象者と規模
+    validations:
+      required: true
+  - type: dropdown
+    id: sales
+    attributes:
+      label: 酒類の販売・受発注を伴うか
+      options: [伴わない, 免許保有者が直接実施する, 未定]
+    validations:
+      required: true
+  - type: textarea
+    id: publication
+    attributes:
+      label: 公開可能な範囲
+      description: 実施概要、匿名化結果、写真、組織名等について記載してください。
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: '個人の連絡先や未公開の商談条件はIssueへ書かないでください。連絡窓口確定後に非公開経路をご案内します。'

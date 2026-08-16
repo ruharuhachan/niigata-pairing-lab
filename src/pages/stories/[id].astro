@@ -1,0 +1,37 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { isPublished } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('stories')).filter(isPublished);
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'stories'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  eyebrow={`STORY / ${entry.data.kind}`}
+  claimStatus={entry.data.claimStatus}
+  permissionStatus={entry.data.permissionStatus}
+  lastVerifiedAt={entry.data.lastVerifiedAt}
+  updatedAt={entry.data.updatedAt}
+  sourceCount={entry.data.sourceIds.length}
+>
+  {
+    entry.data.partnerName && (
+      <p>
+        <strong>掲載協力：</strong>
+        {entry.data.partnerName}
+      </p>
+    )
+  }
+  <Content />
+</ArticleLayout>

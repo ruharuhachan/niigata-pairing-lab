@@ -1,0 +1,38 @@
+name: 新規掲載の提案
+description: 酒蔵、日本酒、食材、記事等の掲載候補
+title: '[掲載提案] '
+labels: ['new-entry']
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: 対象種別
+      options: [酒蔵, 日本酒, ペアリング, 実証, ストーリー, イベント, 出典]
+    validations:
+      required: true
+  - type: input
+    id: official-url
+    attributes:
+      label: 公式・一次資料URL
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: 掲載する価値・確認したい事実
+    validations:
+      required: true
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: 提案者と対象の関係
+      options: [本人・所属組織, 取引・協力関係者, 利用者・訪問者, 関係なし, その他]
+    validations:
+      required: true
+  - type: dropdown
+    id: permission
+    attributes:
+      label: 掲載許諾の状態
+      options: [許諾不要の公開情報のみ, 確認中, 許諾済み, 不明]
+    validations:
+      required: true

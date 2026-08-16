@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import CollectionIntro from '@/components/CollectionIntro.astro';
+import EmptyState from '@/components/EmptyState.astro';
+import EntryCard from '@/components/EntryCard.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isPublished } from '@/lib/content';
+import { withBase } from '@/lib/paths';
+
+const entries = (await getCollection('stories')).filter(isPublished);
+---
+
+<BaseLayout title="ストーリー" description="許諾済みインタビュー、現場記録、イベントレポート。">
+  <CollectionIntro
+    eyebrow="STORIES"
+    title="ストーリー"
+    description="取材相手の言葉、運営者の観察、公開資料による事実を区別します。写真・ロゴ・発言は合意した範囲だけ掲載します。"
+    count={entries.length}
+    unit="本"
+  />
+  <section class="content-section shell">
+    {
+      entries.length === 0 ? (
+        <EmptyState
+          title="最初の現場記録を準備しています。"
+          body="記事数ではなく、協力者に内容を確認してもらい、訂正可能な形で公開できることを優先します。"
+          action="partners"
+        />
+      ) : (
+        <div class="entry-grid">
+          {entries.map((entry) => (
+            <EntryCard
+              href={withBase(`/stories/${entry.id}/`)}
+              eyebrow={entry.data.kind.replace('_', ' ')}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              status={entry.data.claimStatus}
+              updatedAt={entry.data.updatedAt}
+            />
+          ))}
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

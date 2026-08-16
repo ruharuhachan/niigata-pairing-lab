@@ -1,0 +1,24 @@
+---
+import { withBase } from '@/lib/paths';
+
+interface Props {
+  title: string;
+  body: string;
+  action?: 'methodology' | 'partners';
+}
+
+const { title, body, action = 'methodology' } = Astro.props;
+---
+
+<div class="empty-state">
+  <div class="empty-state__mark" aria-hidden="true">0</div>
+  <div>
+    <p class="eyebrow">NOT EMPTY. NOT YET VERIFIED.</p>
+    <h2>{title}</h2>
+    <p>{body}</p>
+    <a class="text-link" href={withBase(action === 'partners' ? '/partners/' : '/methodology/')}>
+      {action === 'partners' ? '共同実験について' : '掲載・検証の方法を見る'}
+      <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+---
+import type { ClaimStatus, PermissionStatus } from '@/lib/provenance';
+import BaseLayout from './BaseLayout.astro';
+import VerificationMeta from '@/components/VerificationMeta.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  claimStatus: ClaimStatus;
+  permissionStatus: PermissionStatus;
+  lastVerifiedAt?: string | undefined;
+  updatedAt: string;
+  sourceCount: number;
+}
+
+const props = Astro.props;
+---
+
+<BaseLayout title={props.title} description={props.description}>
+  <article class="article shell">
+    <header class="article__header">
+      <p class="eyebrow">{props.eyebrow}</p>
+      <h1>{props.title}</h1>
+      <p class="article__lead">{props.description}</p>
+    </header>
+    <VerificationMeta
+      claimStatus={props.claimStatus}
+      permissionStatus={props.permissionStatus}
+      lastVerifiedAt={props.lastVerifiedAt}
+      updatedAt={props.updatedAt}
+      sourceCount={props.sourceCount}
+    />
+    <div class="article__body prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

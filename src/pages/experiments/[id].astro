@@ -1,0 +1,38 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { isPublished } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('experiments')).filter(isPublished);
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'experiments'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  description={entry.data.resultSummary}
+  eyebrow={`EXPERIMENT / ${entry.data.conductedAt}`}
+  claimStatus={entry.data.claimStatus}
+  permissionStatus={entry.data.permissionStatus}
+  lastVerifiedAt={entry.data.lastVerifiedAt}
+  updatedAt={entry.data.updatedAt}
+  sourceCount={entry.data.sourceIds.length}
+>
+  <h2>仮説</h2><p>{entry.data.hypothesis}</p>
+  <dl class="info-grid">
+    <div><dt>対象</dt><dd>{entry.data.audience}</dd></div><div>
+      <dt>場所種別</dt><dd>{entry.data.placeType}</dd>
+    </div><div><dt>実施日</dt><dd>{entry.data.conductedAt}</dd></div><div>
+      <dt>比較条件</dt><dd>{entry.data.conditions.join(' / ')}</dd>
+    </div>
+  </dl>
+  <h2>限界</h2><p>{entry.data.limitations}</p><h2>次の検証</h2><p>{entry.data.nextStep}</p>
+  <Content />
+</ArticleLayout>

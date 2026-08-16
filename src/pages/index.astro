@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '@/components/SectionHeading.astro';
+import StatusBadge from '@/components/StatusBadge.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isPublished } from '@/lib/content';
+import { withBase } from '@/lib/paths';
+
+const [breweries, pairings, experiments, stories] = await Promise.all([
+  getCollection('breweries'),
+  getCollection('pairings'),
+  getCollection('experiments'),
+  getCollection('stories'),
+]);
+
+const counts = {
+  breweries: breweries.filter(isPublished).length,
+  pairings: pairings.filter(isPublished).length,
+  experiments: experiments.filter(isPublished).length,
+  stories: stories.filter(isPublished).length,
+};
+---
+
+<BaseLayout
+  title="新潟ペアリングラボ"
+  description="新潟清酒と食の組み合わせを、一次情報・出典・現場実証とともに記録する需要開発ラボ。"
+>
+  <section class="hero">
+    <div class="hero__grid shell">
+      <div>
+        <StatusBadge kind="phase" value="PHASE 1 / 検証準備中" />
+        <p class="eyebrow" style="margin-top: 2rem;">SAKE × FOOD × FIELD EVIDENCE</p>
+        <h1>うまい、の先を<span>設計する。</span></h1>
+        <p class="hero__lead">
+          新潟清酒と食の「合う」を、思いつきで終わらせない。誰が、どんな条件で、どう感じたか。出典・許諾・限界まで含めて残す、地域の需要開発ラボです。
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href={withBase('/methodology/')}
+            >検証方法を見る <span aria-hidden="true">→</span></a
+          >
+          <a class="button" href={withBase('/partners/')}>共同実験について</a>
+        </div>
+      </div>
+      <aside class="hero__aside" aria-label="現在のフェーズ">
+        <p class="eyebrow">CURRENT FOCUS</p>
+        <strong>01</strong>
+        <p>一次情報を集め、現場に入り、信頼できる最初の3〜5件を深く記録する段階。</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="WHY THIS LAB"
+        title="記事ではなく、検証可能な記録をつくる。"
+        description="公式の商品情報と、運営者の観察と、共同実験の結果を混ぜません。読み手が根拠と限界を自分で確認できる状態をつくります。"
+      />
+      <div class="principles-grid">
+        <article class="principle">
+          <span class="principle__number">01 / SOURCE</span>
+          <h3>事実には出典を</h3>
+          <p>
+            名称、地域、商品仕様、沿革などの重要な事実は、一次資料・公的資料と確認日を紐づけます。
+          </p>
+        </article>
+        <article class="principle">
+          <span class="principle__number">02 / CONTEXT</span>
+          <h3>味には条件を</h3>
+          <p>温度、器、開栓後時間、料理、提供量。官能的な記述ほど、再現に必要な条件を残します。</p>
+        </article>
+        <article class="principle">
+          <span class="principle__number">03 / LEARNING</span>
+          <h3>失敗にも次を</h3>
+          <p>不成立だった組み合わせも隠しません。限界と次の検証を示し、学びを地域へ返します。</p>
+        </article>
+      </div>
+      <div class="proof-strip" aria-label="現在の公開件数">
+        <div><strong>{counts.breweries}</strong><span>確認済み酒蔵</span></div>
+        <div><strong>{counts.pairings}</strong><span>公開ペアリング</span></div>
+        <div><strong>{counts.experiments}</strong><span>現場実証</span></div>
+        <div><strong>{counts.stories}</strong><span>許諾済み記事</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="ROADMAP"
+        title="新潟から始め、地域と地域をつなぐ。"
+        description="対象を広げる前に、前の段階で再現できる成果をつくります。今はPhase 1だけに集中します。"
+      />
+      <div class="phase-list">
+        <article class="phase phase--current">
+          <h3>信頼形成・現場参加</h3>
+          <p>新潟県内での取材、コミュニティ参加、情報発信、小さな課題診断。</p>
+        </article>
+        <article class="phase">
+          <h3>県内需要開発</h3>
+          <p>売場、提供方法、ペアリング、日本酒カクテルを検証し、再注文や継続採用まで追う。</p>
+        </article>
+        <article class="phase">
+          <h3>地域間共創</h3>
+          <p>新潟清酒と各地の名産を組み合わせ、期間限定企画から共同開発へ。</p>
+        </article>
+        <article class="phase">
+          <h3>ペアリング・ハブ</h3>
+          <p>日本酒以外の新潟産品も含め、生産者・料理人・売場・地域をつなぐ。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell cta-panel">
+      <div>
+        <p class="eyebrow">COLLABORATION</p>
+        <h2>最初の実証は、小さく、正直に。</h2>
+        <p>
+          掲載、共同実験、有償相談を区別し、公開範囲を合意してから始めます。売買契約や酒類の受発注は、免許を持つ事業者が直接担います。
+        </p>
+      </div>
+      <a class="button button--primary" href={withBase('/partners/')}
+        >連携の考え方 <span aria-hidden="true">→</span></a
+      >
+    </div>
+  </section>
+</BaseLayout>

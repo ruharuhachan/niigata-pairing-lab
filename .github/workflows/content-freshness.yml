@@ -1,0 +1,25 @@
+name: Content freshness
+
+on:
+  schedule:
+    - cron: '17 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+      - run: |
+          corepack enable
+          corepack prepare pnpm@11.22.0 --activate
+          pnpm install --frozen-lockfile
+      - name: Check review dates
+        run: pnpm freshness:check

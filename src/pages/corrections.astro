@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="訂正方針"
+  description="掲載情報の誤り・更新・権利に関する訂正方針と対応プロセス。"
+>
+  <article class="article shell">
+    <header class="article__header">
+      <p class="eyebrow">CORRECTIONS</p><h1>誤りを、直せる構造に。</h1><p class="article__lead">
+        情報の完全性を装うのではなく、根拠のある指摘を受け取り、影響範囲を確認して修正できることを重視します。
+      </p>
+    </header>
+    <aside class="verification">
+      <p class="eyebrow">CONTACT</p><h2 style="font-size: 1.7rem;">訂正窓口は準備中です。</h2><p>
+        公開前に連絡手段と対応目安を確定します。
+      </p>
+    </aside>
+    <div class="article__body prose">
+      <h2>対応プロセス</h2>
+      <ol>
+        <li>対象ページ、誤りと思われる箇所、根拠を受け取る</li><li>
+          出典、掲載当事者、他ページへの影響を確認する
+        </li><li>修正・保留・掲載停止を判断し、理由を記録する</li><li>
+          重要な修正はページ末尾へ履歴を残す
+        </li>
+      </ol>
+      <h2>優先して対応するもの</h2>
+      <div class="policy-grid">
+        <section class="policy-card">
+          <h3>事実誤認</h3><p>名称、所在地、商品仕様、日程、終売など。</p>
+        </section><section class="policy-card">
+          <h3>権利・許諾</h3><p>写真、ロゴ、発言、掲載範囲に関する申し出。</p>
+        </section><section class="policy-card">
+          <h3>安全・法令</h3><p>未成年飲酒、運転、販売・媒介と誤解される表現。</p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

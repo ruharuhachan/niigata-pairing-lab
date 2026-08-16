@@ -1,0 +1,35 @@
+name: 掲載情報の訂正
+description: 事実誤認、更新、権利・許諾に関する指摘
+title: '[訂正] '
+labels: ['correction']
+body:
+  - type: input
+    id: url
+    attributes:
+      label: 対象URL
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: 誤りと思われる内容
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 根拠・確認できる資料
+      description: 公開可能な公式URL等を記載してください。個人情報や未公開資料は貼らないでください。
+    validations:
+      required: true
+  - type: textarea
+    id: requested-change
+    attributes:
+      label: 希望する修正
+  - type: checkboxes
+    id: safe
+    attributes:
+      label: 公開範囲
+      options:
+        - label: このIssueに個人情報・未公開情報・秘密情報を記載していません
+          required: true

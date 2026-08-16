@@ -1,0 +1,29 @@
+---
+import { formatDate } from '@/lib/content';
+import type { ClaimStatus } from '@/lib/provenance';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  href: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  status: ClaimStatus;
+  updatedAt: string;
+}
+
+const { href, eyebrow, title, summary, status, updatedAt } = Astro.props;
+---
+
+<article class="entry-card">
+  <div class="entry-card__top">
+    <p class="eyebrow">{eyebrow}</p>
+    <StatusBadge kind="claim" value={status} />
+  </div>
+  <h2><a href={href}>{title}</a></h2>
+  <p>{summary}</p>
+  <footer>
+    <span>更新 {formatDate(updatedAt)}</span>
+    <span aria-hidden="true">→</span>
+  </footer>
+</article>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">新潟ペアリングラボ</title>
+  <circle cx="32" cy="32" r="30" fill="#b8442f"/>
+  <path d="M19 20h26v4H19zm4 9h18v4H23zm-2 9h22v4H21z" fill="#f6f2e8"/>
+  <circle cx="32" cy="48" r="4" fill="#d5b570"/>
+</svg>

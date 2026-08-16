@@ -1,0 +1,38 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { isPublished } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('sakes')).filter(isPublished);
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'sakes'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<ArticleLayout
+  title={`${entry.data.brandName} ${entry.data.productName}`}
+  description={entry.data.summary}
+  eyebrow={`SAKE / ${entry.data.category}`}
+  claimStatus={entry.data.claimStatus}
+  permissionStatus={entry.data.permissionStatus}
+  lastVerifiedAt={entry.data.lastVerifiedAt}
+  updatedAt={entry.data.updatedAt}
+  sourceCount={entry.data.sourceIds.length}
+>
+  <dl class="info-grid">
+    <div><dt>酒蔵ID</dt><dd>{entry.data.breweryId}</dd></div><div>
+      <dt>商品区分</dt><dd>{entry.data.category}</dd>
+    </div><div><dt>販売状態</dt><dd>{entry.data.availability}</dd></div><div>
+      <dt>アルコール度数</dt><dd>
+        {entry.data.alcoholByVolume ? `${entry.data.alcoholByVolume}%` : '出典確認前'}
+      </dd>
+    </div>
+  </dl>
+  <Content />
+</ArticleLayout>

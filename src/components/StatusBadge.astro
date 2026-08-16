@@ -1,0 +1,23 @@
+---
+import { claimStatusLabels, evidenceLevelLabels } from '@/lib/labels';
+
+interface Props {
+  kind: 'claim' | 'evidence' | 'phase';
+  value: string;
+  label?: string;
+}
+
+const { kind, value, label } = Astro.props;
+const resolvedLabel =
+  label ??
+  (kind === 'claim'
+    ? claimStatusLabels[value as keyof typeof claimStatusLabels]
+    : kind === 'evidence'
+      ? evidenceLevelLabels[value as keyof typeof evidenceLevelLabels]
+      : value);
+---
+
+<span class:list={['status-badge', `status-badge--${kind}`, `status-badge--${value}`]}>
+  <span class="status-badge__dot" aria-hidden="true"></span>
+  {resolvedLabel}
+</span>

@@ -1,0 +1,99 @@
+---
+import { withBase } from '@/lib/paths';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+const fullTitle = title === '新潟ペアリングラボ' ? title : `${title} | 新潟ペアリングラボ`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const sitemap = new URL(withBase('/sitemap-index.xml'), Astro.site);
+const nav = [
+  ['酒蔵', '/breweries/'],
+  ['日本酒', '/sakes/'],
+  ['ペアリング', '/pairings/'],
+  ['実証', '/experiments/'],
+  ['ストーリー', '/stories/'],
+  ['方法論', '/methodology/'],
+] as const;
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '新潟ペアリングラボ',
+  url: new URL(import.meta.env.BASE_URL, Astro.site).href,
+  description,
+  inLanguage: 'ja-JP',
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#17342c" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href={sitemap} />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <title>{fullTitle}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <header class="site-header">
+      <div class="site-header__inner shell">
+        <a class="brand" href={withBase('/')} aria-label="新潟ペアリングラボ トップ">
+          <span class="brand__mark" aria-hidden="true">新</span>
+          <span>
+            <strong>新潟ペアリングラボ</strong>
+            <small>NIIGATA PAIRING LAB</small>
+          </span>
+        </a>
+        <nav aria-label="メインナビゲーション">
+          <ul>
+            {
+              nav.map(([label, path]) => (
+                <li>
+                  <a href={withBase(path)}>{label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="shell site-footer__grid">
+        <div>
+          <p class="eyebrow">NIIGATA PAIRING LAB</p>
+          <h2>まだ知られていない組み合わせを、<br />検証できる形に。</h2>
+        </div>
+        <div class="site-footer__links">
+          <a href={withBase('/sources/')}>出典一覧</a>
+          <a href={withBase('/corrections/')}>訂正方針</a>
+          <a href={withBase('/partners/')}>共同実験</a>
+          <a href={withBase('/responsible-drinking/')}>責任ある飲酒</a>
+        </div>
+      </div>
+      <div class="shell site-footer__bottom">
+        <p>事実・観察・仮説を分け、出典と検証状態を表示します。</p>
+        <p>© {new Date().getFullYear()} Niigata Pairing Lab</p>
+      </div>
+    </footer>
+  </body>
+</html>
