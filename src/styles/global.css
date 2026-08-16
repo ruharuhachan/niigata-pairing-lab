@@ -471,6 +471,10 @@ h3 {
   background: var(--gold-soft);
 }
 
+.cta-panel .eyebrow {
+  color: #7d2f21;
+}
+
 .cta-panel p:not(.eyebrow) {
   max-width: 42rem;
   margin-bottom: 0;
@@ -717,6 +721,10 @@ h3 {
   padding: clamp(3rem, 8vw, 7rem) 0 2rem;
   color: var(--paper);
   background: #0d211b;
+}
+
+.site-footer .eyebrow {
+  color: var(--gold);
 }
 
 .site-footer__grid {
